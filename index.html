@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+<title>Nijas & Diya — June 2026</title>
+<meta property="og:title" content="Nijas & Diya — Wedding Invitation"/>
+<meta property="og:description" content="Join us to celebrate the Wedding of Nijas & Diya · 7 June 2026 · Malappuram"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Italiana&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Cinzel:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<style>
+:root{
+  --bg:#f7f2ea;
+  --bg2:#f0e9de;
+  --bg3:#ede4d7;
+  --green:#a07830;
+  --green2:#b8913a;
+  --gold:#a07830;
+  --gold2:#c9a644;
+  --cream:#3d2b10;
+  --cream2:#2e1f08;
+  --muted:#8a7560;
+  --rule:rgba(160,120,48,.18);
+  --card:#fffaf3;
+  --cardborder:rgba(160,120,48,.2);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{width:100%;overflow-x:hidden}
+body{background:var(--bg);color:var(--cream);font-family:'Cormorant Garamond',serif;font-size:19px;line-height:1.6;-webkit-font-smoothing:antialiased;font-weight:600}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+
+/* FLOATING PARTICLES */
+.travel-dots{position:fixed;inset:0;pointer-events:none;z-index:2;overflow:hidden}
+.travel-dot{position:absolute;border-radius:50%;opacity:0;animation:twinkle linear infinite}
+.travel-dot:nth-child(1){left:8%;top:20%;width:2px;height:2px;background:#c9a644;animation-duration:4s;animation-delay:0s}
+.travel-dot:nth-child(2){left:22%;top:65%;width:3px;height:3px;background:#c9a644;animation-duration:5s;animation-delay:-.8s}
+.travel-dot:nth-child(3){left:45%;top:15%;width:2px;height:2px;background:#e2c06a;animation-duration:4.5s;animation-delay:-1.5s}
+.travel-dot:nth-child(4){left:68%;top:72%;width:2px;height:2px;background:#c9a644;animation-duration:5.5s;animation-delay:-.4s}
+.travel-dot:nth-child(5){left:82%;top:38%;width:3px;height:3px;background:#e2c06a;animation-duration:4.2s;animation-delay:-2s}
+.travel-dot:nth-child(6){left:92%;top:55%;width:2px;height:2px;background:#c9a644;animation-duration:4.8s;animation-delay:-1s}
+.travel-dot:nth-child(7){left:35%;top:82%;width:2px;height:2px;background:#e2c06a;animation-duration:5.2s;animation-delay:-.3s}
+.travel-dot:nth-child(8){left:55%;top:48%;width:3px;height:3px;background:#c9a644;animation-duration:4.6s;animation-delay:-2.5s}
+@keyframes twinkle{0%,100%{opacity:0}50%{opacity:.7}}
+
+/* LANDING */
+#landing{position:fixed;inset:0;z-index:1000;background:radial-gradient(ellipse at 30% 40%,#fdf8f0 0%,#f0e9de 55%,#e8dfd0 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 28px;text-align:center;transition:opacity 1s ease,visibility 1s ease}
+#landing.gone{opacity:0;visibility:hidden;pointer-events:none}
+#landing::before{content:"";position:absolute;top:22px;left:22px;right:22px;bottom:22px;border:1px solid rgba(160,120,48,.25);pointer-events:none}
+#landing::after{content:"";position:absolute;top:30px;left:30px;right:30px;bottom:30px;border:1px solid rgba(160,120,48,.1);pointer-events:none}
+.ornament{position:absolute;width:52px;height:52px;pointer-events:none;opacity:0;animation:fadeIn 1.2s ease forwards 1.5s}
+.ornament.tl{top:30px;left:30px;border-top:1.5px solid var(--gold);border-left:1.5px solid var(--gold)}
+.ornament.tr{top:30px;right:30px;border-top:1.5px solid var(--gold);border-right:1.5px solid var(--gold)}
+.ornament.bl{bottom:30px;left:30px;border-bottom:1.5px solid var(--gold);border-left:1.5px solid var(--gold)}
+.ornament.br{bottom:30px;right:30px;border-bottom:1.5px solid var(--gold);border-right:1.5px solid var(--gold)}
+@keyframes fadeIn{to{opacity:1}}
+
+/* Islamic geometric SVG overlay on landing */
+.geo-overlay{position:absolute;inset:0;pointer-events:none;opacity:.06;overflow:hidden}
+
+.landing-arabic{font-size:clamp(13px,3.5vw,18px);letter-spacing:.3em;color:var(--gold);opacity:0;animation:fadeIn .8s ease forwards .3s;font-family:'Cormorant Garamond',serif;font-style:italic;margin-bottom:12px}
+.landing-mono{width:clamp(100px,22vw,140px);height:auto;margin-bottom:22px;opacity:0;animation:fadeIn 1.3s ease forwards .2s,monoDrift 6s ease-in-out infinite 2s}
+@keyframes monoDrift{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.landing-stamp{opacity:0;animation:fadeIn .8s ease forwards .4s;font-family:'Cinzel',serif;font-size:8px;letter-spacing:.5em;color:var(--gold);border:1px solid rgba(160,120,48,.35);padding:4px 12px;margin-bottom:18px}
+.landing-greet{font-family:'Cinzel',serif;letter-spacing:.4em;font-size:9px;color:var(--gold);margin-bottom:10px;opacity:0;animation:fadeIn .8s ease forwards .55s}
+.landing-guest{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(18px,4.5vw,24px);color:var(--cream2);margin-bottom:20px;opacity:0;animation:fadeIn .8s ease forwards .7s}
+.landing-guest:empty{display:none}
+.landing-names{font-family:'Italiana',serif;font-size:clamp(58px,16vw,100px);line-height:.88;color:var(--cream2);margin-bottom:18px;opacity:0;animation:fadeIn 1.2s ease forwards .85s}
+.landing-names .amp{font-family:'Playfair Display',serif;font-style:italic;color:var(--gold);display:block;font-size:.44em;margin:10px 0}
+.landing-tagline{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;color:var(--muted);margin-bottom:20px;opacity:0;animation:fadeIn .8s ease forwards 1s;max-width:32ch}
+.landing-date{font-family:'Cinzel',serif;letter-spacing:.4em;font-size:clamp(13px,3.5vw,16px);color:var(--gold);margin-bottom:30px;opacity:0;animation:fadeIn .8s ease forwards 1.1s}
+.landing-divider{display:flex;align-items:center;gap:10px;margin-bottom:30px;opacity:0;animation:fadeIn .8s ease forwards 1.22s}
+.landing-divider span{width:50px;height:1px;background:var(--gold);opacity:.35}
+.landing-divider .dot{width:5px;height:5px;border-radius:50%;background:var(--gold)}
+.enter-btn{opacity:0;animation:fadeIn 1s ease forwards 1.42s;display:inline-flex;align-items:center;gap:10px;padding:15px 40px;background:linear-gradient(135deg,#a07830,#b8913a);color:#fffaf3;border:1px solid rgba(160,120,48,.4);font-family:'Cinzel',serif;letter-spacing:.28em;font-size:10.5px;cursor:pointer;transition:all .3s;border-radius:2px;box-shadow:0 10px 30px rgba(160,120,48,.2)}
+.enter-btn:hover,.enter-btn:active{background:linear-gradient(135deg,#b8913a,#c9a644)}
+.enter-btn svg{width:11px;height:11px}
+.landing-venue{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.35em;color:var(--muted);opacity:0;animation:fadeIn .8s ease forwards 1.6s;margin-top:18px}
+
+#main{display:none}
+#main.show{display:block}
+
+/* STICKY BADGE */
+#mono-badge{position:fixed;top:10px;left:50%;transform:translateX(-50%);z-index:900;width:44px;height:44px;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .4s;background:rgba(15,26,18,.95);border-radius:50%;border:1px solid rgba(201,166,68,.3);backdrop-filter:blur(8px);box-shadow:0 2px 14px rgba(0,0,0,.6)}
+#mono-badge.show{opacity:1}
+#mono-badge svg{width:34px;height:34px}
+
+/* SECTION COMMONS */
+.section-eyebrow{font-family:'Cinzel',serif;letter-spacing:.42em;font-size:9.5px;color:var(--gold);margin-bottom:14px}
+.section-title{font-family:'Italiana',serif;font-size:clamp(36px,9vw,54px);color:var(--cream2);margin-bottom:44px;line-height:1.1}
+.divider{display:flex;align-items:center;justify-content:center;gap:14px;margin:44px 0 10px}
+.divider span{flex:1;height:1px;background:var(--rule);max-width:76px}
+.divider .dot{width:6px;height:6px;border-radius:50%;background:var(--gold)}
+
+/* INVITE */
+.invite{background:var(--bg);padding:88px 28px 66px;position:relative;text-align:center;border-bottom:1px solid var(--rule)}
+.invite::before{content:"";position:absolute;top:40px;left:50%;transform:translateX(-50%);width:38px;height:38px;border-top:1px solid var(--gold);border-left:1px solid var(--gold);opacity:.25}
+.invite-personal{font-family:'Italiana',serif;font-style:italic;color:var(--gold);font-size:21px;margin-bottom:28px}
+.invite-personal:empty{display:none}
+.invite-names{font-family:'Italiana',serif;font-size:clamp(54px,14vw,96px);line-height:.88;color:var(--cream2);margin-bottom:30px}
+.invite-names .amp{color:var(--gold);font-family:'Playfair Display',serif;font-style:italic;font-size:.52em;display:inline-block;vertical-align:middle;margin:0 .1em}
+.invite-body{max-width:44ch;margin:0 auto}
+.invite-body p{font-size:19px;font-weight:600;line-height:1.85;color:var(--cream2);margin-bottom:14px;font-style:italic}
+.invite-body .accent{color:var(--gold2);font-weight:600}
+
+/* QURAN VERSE */
+.verse-block{background:rgba(201,166,68,.05);border-left:2px solid var(--gold);padding:18px 20px;margin:24px auto;max-width:420px;text-align:left;border-radius:0 6px 6px 0}
+.verse-arabic{font-size:22px;color:var(--gold2);text-align:right;margin-bottom:12px;line-height:2;direction:rtl;font-family:'Cormorant Garamond',serif}
+.verse-text{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;color:var(--cream);line-height:1.8;margin-bottom:8px}
+.verse-ref{font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:.3em;color:var(--gold);opacity:.7}
+
+/* FAMILIES */
+.families{background:var(--bg);padding:76px 24px 66px;text-align:center;position:relative;overflow:hidden;border-bottom:1px solid var(--rule)}
+.family-grid{display:grid;grid-template-columns:1fr;gap:28px;max-width:480px;margin:0 auto}
+@media(min-width:640px){.family-grid{grid-template-columns:1fr 1fr;max-width:720px}}
+.family-card{background:var(--card);border:1px solid var(--cardborder);border-radius:16px;box-shadow:0 2px 20px rgba(0,0,0,.3);padding:28px 22px;text-align:left}
+.family-card-head{display:flex;align-items:center;gap:14px;margin-bottom:20px;padding-bottom:16px;border-bottom:1px dashed rgba(201,166,68,.15)}
+.family-photo-wrap{flex-shrink:0;padding:2px;background:linear-gradient(135deg,var(--green),var(--gold),var(--green2));border-radius:50%}
+.family-photo{width:68px;height:68px;border-radius:50%;background:linear-gradient(145deg,var(--bg3),var(--bg));display:flex;align-items:center;justify-content:center;font-family:'Italiana',serif;font-size:26px;color:var(--gold);border:3px solid var(--bg)}
+.family-card-name{font-family:'Italiana',serif;font-size:22px;color:var(--cream2);line-height:1.15;word-break:break-word}
+.family-card-role{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.32em;color:var(--gold);margin-top:4px;opacity:.8}
+.family-detail{font-size:16.5px;color:var(--muted);font-style:italic;line-height:1.85;font-weight:600}
+.family-detail strong{font-family:'Cinzel',serif;font-style:normal;font-size:8px;letter-spacing:.28em;color:var(--gold);display:block;margin:12px 0 4px;font-weight:500;opacity:.85}
+.family-sep{display:flex;align-items:center;gap:10px;margin:14px 0;opacity:.2}
+.family-sep span{flex:1;height:1px;background:var(--gold)}
+.family-sep i{font-size:11px;color:var(--gold);font-style:normal}
+
+/* EVENTS */
+.details{background:var(--bg2);padding:76px 24px 66px;border-bottom:1px solid var(--rule)}
+.details-lede{text-align:center;color:var(--muted);font-size:19px;font-weight:600;max-width:38ch;margin:0 auto 36px;line-height:1.7;font-style:italic}
+.event-card{background:var(--card);border:1px solid var(--cardborder);border-radius:12px;box-shadow:0 2px 16px rgba(0,0,0,.3);padding:22px 18px 18px;margin-bottom:14px}
+.event-head{display:flex;align-items:center;gap:12px;padding-bottom:13px;margin-bottom:13px;border-bottom:1px dashed rgba(201,166,68,.15)}
+.event-num{width:30px;height:30px;border-radius:50%;background:var(--green);color:var(--gold2);display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:10px;font-weight:500;flex-shrink:0;border:1px solid rgba(201,166,68,.3)}
+.event-title{font-family:'Cinzel',serif;letter-spacing:.26em;font-size:10.5px;color:var(--cream2);font-weight:500}
+.event-row{display:flex;gap:12px;align-items:flex-start;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.03)}
+.event-row:last-child{border-bottom:none}
+.row-icon{width:34px;height:34px;border-radius:50%;background:rgba(201,166,68,.06);border:1px solid rgba(201,166,68,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--gold)}
+.row-icon svg{width:15px;height:15px}
+.row-body{flex:1;min-width:0}
+.row-label{font-family:'Cinzel',serif;letter-spacing:.25em;font-size:8.5px;color:var(--muted);margin-bottom:2px}
+.row-value{font-family:'Italiana',serif;font-size:18px;color:var(--cream2);line-height:1.25}
+.row-sub{font-size:16.5px;font-weight:600;color:var(--muted);font-style:italic;margin-top:1px}
+.event-actions{display:flex;gap:8px;margin-top:13px;flex-wrap:wrap}
+.btn{flex:1;min-width:110px;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:11px;border-radius:3px;font-family:'Cinzel',serif;letter-spacing:.18em;font-size:9.5px;cursor:pointer;border:none;transition:all .2s;font-weight:500}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--green);color:var(--cream2);border:1px solid rgba(201,166,68,.25)}
+.btn-primary:hover{background:var(--green2)}
+.btn-ghost{background:transparent;color:var(--cream);border:1px solid rgba(201,166,68,.2)}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+.btn svg{width:11px;height:11px}
+
+/* WISHES WALL */
+.wishes{background:var(--bg);padding:76px 24px 66px;border-bottom:1px solid var(--rule)}
+.wish-form{background:var(--card);border:1px solid var(--cardborder);border-radius:10px;padding:22px 18px;max-width:500px;margin:0 auto 28px}
+.wish-form textarea{width:100%;padding:11px 13px;border:1px solid var(--cardborder);border-radius:6px;background:rgba(255,255,255,.04);font-family:'Cormorant Garamond',serif;font-size:17.5px;color:var(--cream);outline:none;min-height:80px;resize:none;transition:border-color .2s}
+.wish-form textarea:focus{border-color:var(--gold)}
+.wish-form textarea::placeholder{color:var(--muted)}
+.wish-form input{width:100%;padding:11px 13px;border:1px solid var(--cardborder);border-radius:6px;background:rgba(255,255,255,.04);font-family:'Cormorant Garamond',serif;font-size:17.5px;color:var(--cream);outline:none;margin-bottom:10px;transition:border-color .2s}
+.wish-form input:focus{border-color:var(--gold)}
+.wish-form input::placeholder{color:var(--muted)}
+.wfl-submit{width:100%;padding:13px;background:var(--green);color:var(--cream2);border:1px solid rgba(201,166,68,.3);border-radius:4px;font-family:'Cinzel',serif;letter-spacing:.25em;font-size:10px;cursor:pointer;margin-top:10px;transition:background .2s}
+.wfl-submit:hover{background:var(--green2)}
+.wfl-submit:disabled{opacity:.5;cursor:not-allowed}
+#wgrid{display:grid;grid-template-columns:1fr;gap:12px;max-width:500px;margin:0 auto}
+.wish-card{background:var(--card);border:1px solid var(--cardborder);border-radius:10px;box-shadow:0 1px 10px rgba(0,0,0,.3);padding:18px 16px}
+.wish-card-name{font-family:'Italiana',serif;font-size:20px;color:var(--gold);margin-bottom:4px}
+.wish-card-msg{font-size:17px;font-weight:600;color:var(--muted);font-style:italic;line-height:1.7}
+.wish-card-time{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.22em;color:var(--muted);opacity:.4;margin-top:8px}
+#loadmore-wrap{text-align:center;margin-top:22px;display:none}
+#loadMoreBtn{padding:12px 32px;background:transparent;border:1px solid rgba(201,166,68,.2);border-radius:4px;font-family:'Cinzel',serif;letter-spacing:.22em;font-size:9.5px;color:var(--gold);cursor:pointer;transition:all .2s}
+#loadMoreBtn:hover{border-color:var(--gold)}
+
+/* CONTACT */
+.contact{background:var(--bg);padding:56px 24px 38px;text-align:center}
+.contact .section-eyebrow{color:var(--gold);margin-bottom:12px}
+.contact h3{font-family:'Italiana',serif;font-size:27px;color:var(--cream2);margin-bottom:5px}
+.contact p{color:var(--muted);font-size:17px;font-weight:600;margin-bottom:28px;max-width:30ch;margin-left:auto;margin-right:auto;font-style:italic}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:420px;margin:0 auto}
+.cbtn{padding:13px;border-radius:4px;display:flex;align-items:center;justify-content:center;gap:7px;font-family:'Cinzel',serif;letter-spacing:.16em;font-size:9px;cursor:pointer;border:none;text-decoration:none}
+.cbtn-wa{background:#25D366;color:#fff}
+.cbtn-call{background:transparent;color:var(--gold);border:1px solid rgba(201,166,68,.25)}
+.cbtn svg{width:13px;height:13px}
+.contact-person{font-family:'Italiana',serif;font-size:15px;display:block;margin-bottom:2px}
+.contact-block{margin-bottom:8px}
+
+/* FOOTER */
+.footer{background:#060e08;padding:32px 24px 28px;text-align:center;color:var(--cream2);border-top:1px solid rgba(201,166,68,.1)}
+.footer .couple-initials{font-family:'Cinzel',serif;letter-spacing:.55em;font-size:11.5px;color:var(--gold);margin-bottom:16px}
+.footer .tagline{font-family:'Italiana',serif;font-style:italic;font-size:16px;color:var(--cream);margin-bottom:14px}
+.footer .brand{font-family:'Cinzel',serif;letter-spacing:.38em;font-size:8.5px;color:rgba(201,166,68,.25)}
+
+/* UTILS */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .9s ease,transform .9s ease}
+.reveal.on{opacity:1;transform:none}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--green);color:var(--cream2);padding:11px 20px;border-radius:999px;font-family:'Cinzel',serif;font-size:10.5px;letter-spacing:.2em;opacity:0;transition:all .3s;z-index:9999;pointer-events:none;border:1px solid rgba(201,166,68,.3)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* Islamic geometric pattern */
+.geo-band{width:100%;overflow:hidden;opacity:.3;line-height:0}
+.geo-band svg{width:100%;height:24px}
+
+@media(min-width:640px){
+  .invite,.families,.details,.contact,.wishes{padding-left:44px;padding-right:44px}
+}
+</style>
+</head>
+<body>
+
+<!-- PARTICLES -->
+<div class="travel-dots">
+  <div class="travel-dot"></div><div class="travel-dot"></div><div class="travel-dot"></div>
+  <div class="travel-dot"></div><div class="travel-dot"></div><div class="travel-dot"></div>
+  <div class="travel-dot"></div><div class="travel-dot"></div>
+</div>
+
+<!-- STICKY MONOGRAM -->
+<div id="mono-badge">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="none">
+    <circle cx="50" cy="50" r="48" fill="#fffaf3" stroke="rgba(160,120,48,.4)" stroke-width="1"/>
+    <text x="33" y="63" text-anchor="middle" font-family="Cinzel, serif" font-size="28" fill="#c9a644">N</text>
+    <text x="50" y="62" text-anchor="middle" font-family="Playfair Display, serif" font-size="18" fill="rgba(201,166,68,.55)" font-style="italic">&amp;</text>
+    <text x="68" y="62" text-anchor="middle" font-family="Italiana, serif" font-size="34" fill="#c9a644">D</text>
+  </svg>
+</div>
+
+<!-- LANDING -->
+<div id="landing">
+  <div class="ornament tl"></div>
+  <div class="ornament tr"></div>
+  <div class="ornament bl"></div>
+  <div class="ornament br"></div>
+
+  <!-- Geometric Islamic overlay -->
+  <svg class="geo-overlay" viewBox="0 0 400 600" xmlns="http://www.w3.org/2000/svg">
+    <!-- Geometric star pattern top -->
+    <g opacity=".6" stroke="#c9a644" stroke-width=".8" fill="none">
+      <polygon points="200,30 215,65 255,65 225,88 237,125 200,103 163,125 175,88 145,65 185,65" transform="scale(.6) translate(133,20)"/>
+      <polygon points="200,30 215,65 255,65 225,88 237,125 200,103 163,125 175,88 145,65 185,65" transform="scale(.4) translate(600,400)"/>
+      <polygon points="200,30 215,65 255,65 225,88 237,125 200,103 163,125 175,88 145,65 185,65" transform="scale(.35) translate(-50,1000)"/>
+      <!-- Crescent top right -->
+      <path d="M340,80 A30,30 0 1,1 310,110 A20,20 0 1,0 340,80Z" fill="rgba(201,166,68,.15)" stroke="rgba(201,166,68,.4)" stroke-width="1"/>
+      <!-- Crescent bottom left -->
+      <path d="M60,480 A24,24 0 1,1 36,504 A16,16 0 1,0 60,480Z" fill="rgba(201,166,68,.1)" stroke="rgba(201,166,68,.3)" stroke-width="1"/>
+    </g>
+  </svg>
+
+  <div class="landing-arabic">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم</div>
+  <div class="landing-stamp">NIKAH · JUNE 2026</div>
+
+  <!-- Monogram -->
+  <svg class="landing-mono" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" fill="none">
+    <circle cx="100" cy="100" r="95" fill="none" stroke="rgba(201,166,68,.2)" stroke-width="1"/>
+    <circle cx="100" cy="100" r="82" fill="none" stroke="rgba(201,166,68,.08)" stroke-width=".5"/>
+    <!-- 8-point star -->
+    <g transform="translate(100,100)">
+      <polygon points="0,-45 10,-18 38,-38 18,-10 45,0 18,10 38,38 10,18 0,45 -10,18 -38,38 -18,10 -45,0 -18,-10 -38,-38 -10,-18" fill="none" stroke="rgba(201,166,68,.25)" stroke-width="1"/>
+    </g>
+    <text x="60" y="125" text-anchor="middle" font-family="Cinzel, serif" font-size="58" fill="#c9a644">N</text>
+    <text x="100" y="115" text-anchor="middle" font-family="Playfair Display, serif" font-size="26" fill="rgba(201,166,68,.45)" font-style="italic">&amp;</text>
+    <text x="142" y="123" text-anchor="middle" font-family="Italiana, serif" font-size="72" fill="#c9a644">D</text>
+    <text x="100" y="152" text-anchor="middle" font-family="Cinzel, serif" font-size="9" fill="#c9a644" letter-spacing="4">JUN 2026</text>
+  </svg>
+
+  <div class="landing-greet">— WITH JOY &amp; BLESSINGS —</div>
+  <div class="landing-guest" id="landingGuest"></div>
+  <h1 class="landing-names">Nijas<span class="amp">&amp;</span>Diya</h1>
+  <p class="landing-tagline">Two hearts united in faith, family, and forever.</p>
+  <div class="landing-date">7 JUNE 2026</div>
+  <div class="landing-divider"><span></span><div class="dot"></div><span></span></div>
+  <button class="enter-btn" onclick="openInvite()">
+    OPEN INVITATION
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+  </button>
+  <div class="landing-venue">VELLILA · MALAPPURAM</div>
+</div>
+
+<div id="main">
+
+<!-- INVITE -->
+<section class="invite" style="position:relative;overflow:hidden">
+  <!-- Subtle crescent + star watermark -->
+  <div style="position:absolute;inset:0;pointer-events:none;opacity:.04;display:flex;align-items:center;justify-content:center">
+    <svg viewBox="0 0 200 200" width="260" height="260" xmlns="http://www.w3.org/2000/svg">
+      <g transform="translate(100,100)">
+        <polygon points="0,-60 14,-24 52,-52 24,-14 60,0 24,14 52,52 14,24 0,60 -14,24 -52,52 -24,14 -60,0 -24,-14 -52,-52 -14,-24" fill="none" stroke="#c9a644" stroke-width="1.5"/>
+      </g>
+    </svg>
+  </div>
+  <div style="position:relative;z-index:1">
+  <div class="reveal">
+    <span style="font-family:'Cinzel',serif;letter-spacing:.42em;font-size:9.5px;color:var(--gold);display:block;margin-bottom:12px">— بِسْمِ اللَّه —</span>
+    <span style="font-family:'Cinzel',serif;letter-spacing:.38em;font-size:9px;color:var(--gold);display:block;margin-bottom:22px;opacity:.7">WEDDING INVITATION</span>
+    <div class="invite-personal" id="invitePersonal"></div>
+    <h2 class="invite-names">Nijas<span class="amp">&amp;</span>Diya</h2>
+    <div class="invite-body">
+      <p><span class="accent">Together with their families,</span> Nijas &amp; Diya joyfully invite you to celebrate their Nikah.</p>
+      <p>We warmly invite you to join us as two families come together in love, faith, and celebration.</p>
+    </div>
+    <div class="divider"><span></span><div class="dot"></div><span></span></div>
+  </div>
+  </div>
+</section>
+
+<!-- DATE -->
+<section style="background:var(--bg2);border-bottom:1px solid var(--rule)">
+  <div class="reveal">
+    <div style="background:linear-gradient(135deg,#a07830,#c9a644);padding:18px 24px;text-align:center;border-bottom:1px solid rgba(160,120,48,.2)">
+      <div style="font-family:'Cinzel',serif;letter-spacing:.38em;font-size:11px;color:#fffaf3">7 JUNE 2026 &nbsp;·&nbsp; MALAPPURAM</div>
+    </div>
+    <div style="display:flex;align-items:stretch;padding:36px 16px 32px;max-width:480px;margin:0 auto">
+      <div style="flex:1;text-align:center;padding:0 8px">
+        <div style="font-family:'Italiana',serif;font-size:clamp(52px,14vw,80px);color:var(--cream2);line-height:1">07</div>
+        <div style="font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:.32em;color:var(--muted);margin-top:10px">DAY</div>
+      </div>
+      <div style="width:1px;background:var(--rule);margin:8px 0"></div>
+      <div style="flex:1;text-align:center;padding:0 8px">
+        <div style="font-family:'Italiana',serif;font-size:clamp(52px,14vw,80px);color:var(--cream2);line-height:1">06</div>
+        <div style="font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:.32em;color:var(--muted);margin-top:10px">MONTH</div>
+      </div>
+      <div style="width:1px;background:var(--rule);margin:8px 0"></div>
+      <div style="flex:1;text-align:center;padding:0 8px">
+        <div style="font-family:'Italiana',serif;font-size:clamp(52px,14vw,80px);color:var(--cream2);line-height:1">26</div>
+        <div style="font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:.32em;color:var(--muted);margin-top:10px">YEAR</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAMILIES -->
+<section class="families">
+  <div class="reveal">
+    <div class="section-eyebrow">— MEET OUR FAMILIES —</div>
+    <h2 class="section-title">With Blessings From</h2>
+    <div class="family-grid">
+
+      <!-- BRIDE SIDE -->
+      <div class="family-card">
+        <div class="family-card-head">
+          <div class="family-photo-wrap">
+            <div class="family-photo">D</div>
+          </div>
+          <div>
+            <div class="family-card-name">Diya</div>
+            <div class="family-card-role">The Bride · Koduvally</div>
+          </div>
+        </div>
+        <div class="family-detail">
+          <strong>PARENTS</strong>
+          Shameer &amp; Naseera
+          <strong>HOUSE</strong>
+          Varikkengal<br>
+          Koduvally, Kozhikode
+        </div>
+      </div>
+
+      <!-- GROOM SIDE -->
+      <div class="family-card">
+        <div class="family-card-head">
+          <div class="family-photo-wrap" style="background:linear-gradient(135deg,#a07830,#c9a644,#b8913a)">
+            <div class="family-photo" style="font-family:'Cinzel',serif;font-size:22px;letter-spacing:0">N</div>
+          </div>
+          <div>
+            <div class="family-card-name">Nijas</div>
+            <div class="family-card-role">The Groom · Vellila</div>
+          </div>
+        </div>
+        <div class="family-detail">
+          <strong>PARENTS</strong>
+          Mansoor &amp; Rajeena
+          <strong>HOUSE</strong>
+          Machingal<br>
+          Vellila, Malappuram
+        </div>
+      </div>
+
+    </div>
+    <div class="divider"><span></span><div class="dot"></div><span></span></div>
+  </div>
+</section>
+
+<!-- QURAN VERSE -->
+<section style="background:var(--bg2);padding:60px 24px;text-align:center;border-bottom:1px solid var(--rule)">
+  <div class="reveal">
+    <div class="section-eyebrow">— HIS WORD —</div>
+    <div class="verse-block" style="max-width:480px;margin:0 auto">
+      <div class="verse-arabic">وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا</div>
+      <div class="verse-text">"And of His signs is that He created for you from yourselves mates that you may find tranquillity in them; and He placed between you affection and mercy."</div>
+      <div class="verse-ref">SURAH AR-RUM · 30:21</div>
+    </div>
+  </div>
+</section>
+
+<!-- EVENTS -->
+<section class="details">
+  <div class="reveal">
+    <div class="section-eyebrow" style="text-align:center">— THE OCCASION —</div>
+    <h2 class="section-title" style="text-align:center">Join Us</h2>
+    <p class="details-lede">Please join us to celebrate this blessed union.</p>
+
+    <!-- EVENT 01 — RECEPTION -->
+    <div class="event-card">
+      <div class="event-head"><div class="event-num">01</div><div class="event-title">RECEPTION</div></div>
+      <div class="event-row">
+        <div class="row-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+        <div class="row-body"><div class="row-label">DATE &amp; TIME</div><div class="row-value">Sunday, 7 June 2026</div><div class="row-sub">11:00 AM onwards</div></div>
+      </div>
+      <div class="event-row">
+        <div class="row-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div class="row-body"><div class="row-label">VENUE</div><div class="row-value">AFRAD Multipurpose Convention Center</div><div class="row-sub">Vellila, Malappuram</div></div>
+      </div>
+      <div class="event-actions">
+        <a class="btn btn-primary" href="https://share.google/ujVJz8JyeKWBAT2cW" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>DIRECTIONS</a>
+        <button class="btn btn-ghost" onclick="addToCal('Reception — Nijas &amp; Diya','2026-06-07T11:00','2026-06-07T14:00','AFRAD Multipurpose Convention Center, Vellila, Malappuram')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>CALENDAR</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact">
+  <div class="section-eyebrow">— GET IN TOUCH —</div>
+  <h3>Any questions?</h3>
+  <p>We'd love to hear from you.</p>
+  <div class="contact-grid">
+    <a class="cbtn cbtn-wa" href="https://wa.me/917511117495" target="_blank" style="grid-column:span 2">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.52 3.48A12 12 0 003.48 20.52L2 22l1.55-1.45A12 12 0 1020.52 3.48z"/></svg>
+      <span><span class="contact-person">WhatsApp</span>+91 7511 117 495</span>
+    </a>
+    <a class="cbtn cbtn-call" href="tel:+917511117495" style="grid-column:span 2">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      <span><span class="contact-person">Call</span>+91 7511 117 495</span>
+    </a>
+  </div>
+</section>
+
+<!-- WISHES WALL -->
+<section class="wishes">
+  <div class="reveal">
+    <div class="section-eyebrow" style="text-align:center">— SEND YOUR LOVE —</div>
+    <h2 class="section-title" style="text-align:center">Wishes Wall</h2>
+    <div class="wish-form">
+      <input class="input" id="wisherName" placeholder="Your name" style="margin-bottom:10px"/>
+      <textarea id="wisherMsg" placeholder="Write a blessing or warm wish for Nijas &amp; Diya…"></textarea>
+      <button class="wfl-submit" onclick="submitWish()">SEND WISH ✦</button>
+    </div>
+    <div id="wwall">
+      <div id="wgrid"></div>
+      <div id="loadmore-wrap"><button id="loadMoreBtn" onclick="loadMore()">LOAD MORE</button></div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="couple-initials">N &nbsp;·&nbsp; D</div>
+  <div class="tagline">With love &amp; du'a —<br>Nijas &amp; Diya</div>
+  <div class="brand" id="brandLink" oncontextmenu="return false">INVITATION BY <span style="color:var(--gold)" id="digiwedLink">DIGIWED</span></div>
+</footer>
+
+</div><!-- /main -->
+
+<div class="toast" id="toast"></div>
+<audio id="bgm" loop preload="none"></audio>
+
+<script>
+  // Firebase
+  let db = null;
+  const WISH_PATH = 'diya-nijas-v1/wishes';
+
+  try {
+    if(typeof firebase !== 'undefined'){
+      const cfg = {
+        apiKey:"AIzaSy841fvxVl1KeHOro6WKJ72o22izuCpJ-b4",
+        authDomain:"yaseen-jumana-wedding.firebaseapp.com",
+        databaseURL:"https://yaseen-jumana-wedding-default-rtdb.firebaseio.com",
+        projectId:"yaseen-jumana-wedding",
+        storageBucket:"yaseen-jumana-wedding.firebasestorage.app",
+        messagingSenderId:"355557621111",
+        appId:"1:355557621111:web:d0b78c34bfe5a53b69f572"
+      };
+      if(!firebase.apps.length) firebase.initializeApp(cfg);
+      db = firebase.database();
+    }
+  } catch(e){ console.warn('Firebase:', e); }
+
+  // Guest param
+  const urlParams = new URLSearchParams(window.location.search);
+  const GUEST_NAME = (urlParams.get('guest')||'').trim();
+  if(GUEST_NAME){
+    document.getElementById('landingGuest').textContent = 'Dear ' + GUEST_NAME + ',';
+    document.getElementById('invitePersonal').textContent = 'Dearest ' + GUEST_NAME + ',';
+  }
+
+  // Open invite
+  function openInvite(){
+    document.getElementById('landing').classList.add('gone');
+    document.getElementById('main').classList.add('show');
+    document.body.style.overflow = 'auto';
+    // BGM
+    const bgm = document.getElementById('bgm');
+    if(bgm && bgm.src && bgm.src !== window.location.href){
+      bgm.play().catch(()=>{});
+    }
+    setTimeout(()=>{
+      const io = new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on')}),{threshold:.1});
+      document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+    },100);
+    window.addEventListener('scroll',()=>{
+      const b = document.getElementById('mono-badge');
+      if(window.scrollY > 180) b.classList.add('show'); else b.classList.remove('show');
+    },{passive:true});
+    loadWishes();
+  }
+  document.body.style.overflow = 'hidden';
+
+  function addToCal(title,start,end,loc){
+    const fmt = s=>s.replace(/[-:]/g,'');
+    const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${fmt(start+'00')}/${fmt(end+'00')}&location=${encodeURIComponent(loc)}`;
+    window.open(url,'_blank');
+  }
+
+  function showToast(m){
+    const t=document.getElementById('toast');
+    t.textContent=m; t.classList.add('show');
+    setTimeout(()=>t.classList.remove('show'),3000);
+  }
+
+  // WISHES WALL
+  const PAGE_SIZE = 6;
+  let lastKey = null;
+  let recentlySubmittedTs = null;
+
+  function loadWishes(append=false){
+    if(!db) return;
+    let q = db.ref(WISH_PATH).orderByKey().limitToLast(PAGE_SIZE + 1);
+    if(lastKey) q = q.endBefore(lastKey);
+    q.once('value', snap => {
+      if(!snap.exists()){ if(!append) document.getElementById('wgrid').innerHTML=''; return; }
+      const all = [];
+      snap.forEach(c => all.push({key:c.key,...c.val()}));
+      all.reverse();
+      const hasMore = all.length > PAGE_SIZE;
+      const items = hasMore ? all.slice(0,PAGE_SIZE) : all;
+      if(items.length) lastKey = items[items.length-1].key;
+      const grid = document.getElementById('wgrid');
+      if(!append) grid.innerHTML = '';
+      items.forEach(w => grid.insertAdjacentHTML('beforeend', wishCard(w)));
+      document.getElementById('loadmore-wrap').style.display = hasMore ? 'block' : 'none';
+    });
+  }
+
+  function loadMore(){ loadWishes(true); }
+
+  function wishCard(w){
+    return `<div class="wish-card">
+      <div class="wish-card-name">${esc(w.name)}</div>
+      <div class="wish-card-msg">${esc(w.msg)}</div>
+      <div class="wish-card-time">${w.time||''}</div>
+    </div>`;
+  }
+
+  function esc(s){ const d=document.createElement('div');d.textContent=s||'';return d.innerHTML; }
+
+  function submitWish(){
+    const name = document.getElementById('wisherName').value.trim();
+    const msg  = document.getElementById('wisherMsg').value.trim();
+    if(!name || !msg){ showToast('PLEASE ENTER YOUR NAME AND WISH'); return; }
+    const btn = document.querySelector('.wfl-submit');
+    btn.disabled=true; btn.textContent='SENDING…';
+    const ts = Date.now();
+    if(recentlySubmittedTs && ts - recentlySubmittedTs < 10000){ showToast('PLEASE WAIT BEFORE SENDING AGAIN'); btn.disabled=false; btn.textContent='SEND WISH ✦'; return; }
+    const entry = { name, msg, time: new Date().toLocaleString('en-IN',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}), ts };
+    if(!db){ showToast('Wish sent! ✦'); btn.disabled=false; btn.textContent='SEND WISH ✦'; return; }
+    db.ref(WISH_PATH).push(entry).then(()=>{
+      recentlySubmittedTs = ts;
+      document.getElementById('wisherName').value='';
+      document.getElementById('wisherMsg').value='';
+      btn.textContent='SEND WISH ✦'; btn.disabled=false;
+      showToast('WISH SENT ✦');
+      lastKey=null;
+      loadWishes();
+    }).catch(e=>{ console.error(e); showToast('FAILED. TRY AGAIN.'); btn.disabled=false; btn.textContent='SEND WISH ✦'; });
+  }
+</script>
+
+</body>
+</html>
